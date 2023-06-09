@@ -97,7 +97,7 @@
   <el-button size="small" type="success" @click="modify(scope.row)">修改</el-button>
   <el-button type="danger" size="small" @click="deleteHero(scope.row['_id'])">删除</el-button>
   <el-button type="warning" size="small" @click="addPic(scope.row['_id'])">添加图片</el-button>
-</template>
+  </template>
             </el-table-column>
           </el-table>
 
@@ -106,7 +106,7 @@
             class="pagination"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage"
-            :page-size="3"
+            :page-size="1"
             layout="total, prev, pager, next, jumper"
             :total="length">
             </el-pagination>
@@ -310,7 +310,7 @@ export default {
       },
       currentPage: 1, //当前页数
       pageNumber: 1, //第几页
-      pageRow: 2, //每页多少条
+      pageRow: 1, //每页多少条
       length: 0, //共有多少条
       searchUrl: "./getHeroList",
       addUrl: "./addHero",
