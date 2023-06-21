@@ -4,7 +4,7 @@ const express = require("express");
 //定义路由级中间件
 const router = express.Router();
 //引入数据模型模块
-const Hero = require("../models/heroSchema");
+const HeroModel = require("../models/heroSchema");
 
 //登录接口
 router.post('/login', function(req, res, next){
@@ -47,8 +47,8 @@ router.post("/getHeroList", (req, res) => {
     sqlObj.heroName = heroName;
   }
 
-  
-  var heroList = Hero.find(sqlObj);
+
+  var heroList = HeroModel.find(sqlObj);
 
       //对查询的结果进行筛选，skip跳过结果集中的前多少
       heroList.skip((pageNumber - 1)*pageRow);
@@ -65,7 +65,7 @@ router.post("/getHeroList", (req, res) => {
             error:err
           });
         }else{
-          Hero.find(sqlObj,function(err,heros){
+          HeroModel.find(sqlObj,function(err,heros){
             res.json({
               status:"success",
               heroList:result,
@@ -78,7 +78,7 @@ router.post("/getHeroList", (req, res) => {
 
 // 通过ObjectId查询单个英雄信息路由
 router.get("/getHeroDetail/:id", (req, res) => {
-  Hero.findById(req.params.id)
+  HeroModel.findById(req.params.id)
     .then(hero => {
       res.json(hero);
     })
@@ -91,7 +91,7 @@ router.get("/getHeroDetail/:id", (req, res) => {
 router.post("/addHero", (req, res) => {
   // 使用Hero model上的create方法储存数据
   console.log(req)
-  Hero.create(req.body, (err, hero) => {
+  HeroModel.create(req.body, (err, hero) => {
     if (err) {
       res.json({
         status:"fail",
@@ -111,7 +111,7 @@ router.post("/addHero", (req, res) => {
 //更新一条英雄信息数据路由
 router.put("/modifyHero/:id", (req, res) => {
   console.log(req.params)
-  Hero.findOneAndUpdate(
+  HeroModel.findOneAndUpdate(
     { _id: req.params.id },
     {
       $set: {
@@ -140,7 +140,7 @@ router.put("/modifyHero/:id", (req, res) => {
 
 // 添加图片路由
 router.put("/addHeroPic/:id", (req, res) => {
-  Hero.findOneAndUpdate(
+  HeroModel.findOneAndUpdate(
     { _id: req.params.id },
     {
       $push: {
@@ -163,7 +163,7 @@ router.put("/addHeroPic/:id", (req, res) => {
 
 //删除一条英雄信息路由
 router.delete("/deleteHero/:id", (req, res) => {
-  Hero.findOneAndRemove({
+  HeroModel.findOneAndRemove({
     _id: req.params.id
   })
     .then(hero => res.json({
